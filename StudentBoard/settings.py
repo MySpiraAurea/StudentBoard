@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'StudentBoard',
     'Board',
-    'Users',
     'rest_framework',
     'rest_framework.authtoken',
 ]
@@ -83,8 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'studentboard',
-        'USER': 'apxu',
-        'PASSWORD': 'apxu',
+        'USER': 'postgres',
+        'PASSWORD': '99FcTorpedo11',
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -148,6 +147,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+LOGIN_URL = '/login/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

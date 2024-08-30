@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, Note, Image, Shape, Comment
+from .models import User, Lesson, Homework, Theory, Board, Note, Image, Shape, Comment
 
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,5 +28,26 @@ class BoardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Board
+        fields = '__all__'
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'role']
+
+class LessonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = '__all__'
+
+class HomeworkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Homework
+        fields = '__all__'
+
+class TheorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Theory
         fields = '__all__'
 

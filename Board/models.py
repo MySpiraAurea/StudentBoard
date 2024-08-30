@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser, Group, Permission
 
 
 class Board(models.Model):
@@ -39,6 +39,35 @@ class Shape(models.Model):
 class Comment(models.Model):
     note = models.ForeignKey(Note, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class User(AbstractUser):
+    ROLE_CHOICES = (
+        ('student', 'Student'),
+        ('teacher', 'Teacher'),
+    )
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    groups = models.ManyToManyField(Group, related_name='custom_user_set')
+    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_set')
+
+
+class Lesson(models.Model):
+    teacher = models.ForeignKey(User, related_name='lessons_as_teacher', on_delete=models.CASCADE)
+    student = models.ForeignKey(User, related_name='lessons_as_student', on_delete=models.CASCADE)
+    date = models.DateTimeField()
+    duration = models.DurationField()
+
+
+class Homework(models.Model):
+    lesson = models.ForeignKey(Lesson, related_name='homeworks', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='homework/')
+    description = models.TextField()
+
+
+class Theory(models.Model):
+    title = models.CharField(max_length=255)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
