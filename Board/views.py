@@ -5,7 +5,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .models import User
+from django import forms
+from .models import User, Student
+from .forms import CustomUserCreationForm, logger
+import logging
 
 
 def board_view(request):
@@ -65,15 +68,20 @@ def home(request):
             return redirect('student_sessions')
     return render(request, 'home.html')
 
+
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
+            logger.debug('Form is valid.')
             user = form.save()
+            logger.debug(f'User {user} created.')
             login(request, user)
             return redirect('home')
+        else:
+            logger.debug('Form is not valid.')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
 
 @login_required

@@ -44,4 +44,5 @@ urlpatterns = [
     path('student/timetable/', student_timetable, name='student_timetable'),
     path('student/homework/', student_homework, name='student_homework'),
     path('student/theory/', student_theory, name='student_theory'),
+    path('board/', board_view, name='board')
 ]

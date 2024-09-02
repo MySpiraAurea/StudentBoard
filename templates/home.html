@@ -2,11 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <h1>Welcome to StudentBoard</h1>
-    <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Курсы</a></li>
+                <li><a href="#">Репетиторы</a></li>
+                <li><a href="#">Мини-группы</a></li>
+                <li><a href="#">Домашняя школа</a></li>
+                <li><a href="#">Школа программирования</a></li>
+                <li><a href="{% url 'login' %}">Вход</a></li>
+                <li><a href="{% url 'register' %}">Регистрация</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="home-container">
+        <h1>Добро пожаловать на наш сайт!</h1>
+        <p>Выберите одну из вкладок выше, чтобы узнать больше.</p>
+        <img src="{% static 'images/background.jpg' %}" alt="Fantastical Landscape Emerging from an Open Book">
+    </div>
 </body>
 </html>
+
+
