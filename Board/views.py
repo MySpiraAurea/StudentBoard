@@ -1,14 +1,12 @@
+from django.contrib.auth.forms import AuthenticationForm
 from rest_framework import viewsets
-from .models import Board, Note, Image, Shape, Comment
 from .serializers import *
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django import forms
-from .models import User, Student
+from .models import BoardUser
 from .forms import CustomUserCreationForm, logger
-import logging
+from django.contrib import messages
 
 
 def board_view(request):
@@ -41,7 +39,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = BoardUser.objects.all()
     serializer_class = UserSerializer
 
 
@@ -76,13 +74,42 @@ def register(request):
             logger.debug('Form is valid.')
             user = form.save()
             logger.debug(f'User {user} created.')
-            login(request, user)
-            return redirect('home')
+            messages.success(request, 'Registration successful. Please log in.')
+            return redirect('login')
         else:
             logger.debug('Form is not valid.')
     else:
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
+
+
+def custom_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                if user.role == 'teacher':
+                    return redirect('teacher_sessions')
+                elif user.role == 'student':
+                    return redirect('student_sessions')
+            else:
+                messages.error(request, 'Invalid username or password.')
+        else:
+            messages.error(request, 'Invalid username or password.')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
+
+
+def custom_logout(request):
+    logout(request)
+    messages.success(request, 'You have been logged out.')
+    return redirect('home')
+
 
 @login_required
 def teacher_sessions(request):
@@ -115,4 +142,3 @@ def student_homework(request):
 @login_required
 def student_theory(request):
     return render(request, 'student/theory.html')
-

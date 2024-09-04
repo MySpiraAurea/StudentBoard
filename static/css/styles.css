@@ -69,8 +69,9 @@ nav ul li a:hover {
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 360px;
+    width: 80%;
     text-align: center;
+    margin-top: 20px;
 }
 
 /* Заголовки */
@@ -143,3 +144,52 @@ nav ul li a:hover {
     border-radius: 10px;
 }
 
+.sidebar {
+    width: 200px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    position: fixed;
+    top: 60px; /* Adjust based on your header height */
+    left: 0;
+    height: 100%;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar ul li.active a,
+.sidebar ul li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.student-container {
+    display: flex;
+    margin-left: 220px; /* Adjust based on sidebar width */
+}
+
+.teacher-container {
+    display: flex;
+    margin-left: 220px; /* Adjust based on sidebar width */
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+}

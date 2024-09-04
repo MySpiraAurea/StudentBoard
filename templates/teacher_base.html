@@ -1,0 +1,20 @@
+<!-- templates/teacher_base.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="teacher-container">
+    <div class="sidebar">
+        <ul>
+            <li class="{% if request.path == '/teacher/sessions/' %}active{% endif %}"><a href="{% url 'teacher_sessions' %}">Сессии</a></li>
+            <li class="{% if request.path == '/teacher/timetable/' %}active{% endif %}"><a href="{% url 'teacher_timetable' %}">Расписание</a></li>
+            <li class="{% if request.path == '/teacher/students/' %}active{% endif %}"><a href="{% url 'teacher_students' %}">Ученики</a></li>
+            <li class="{% if request.path == '/teacher/balance/' %}active{% endif %}"><a href="{% url 'teacher_balance' %}">Баланс</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        {% block teacher_content %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
+

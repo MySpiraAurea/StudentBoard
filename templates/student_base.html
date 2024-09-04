@@ -1,0 +1,19 @@
+<!-- templates/student_base.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="student-container">
+    <div class="sidebar">
+        <ul>
+            <li class="{% if request.path == '/student/sessions/' %}active{% endif %}"><a href="{% url 'student_sessions' %}">Сессии</a></li>
+            <li class="{% if request.path == '/student/timetable/' %}active{% endif %}"><a href="{% url 'student_timetable' %}">Расписание</a></li>
+            <li class="{% if request.path == '/student/homework/' %}active{% endif %}"><a href="{% url 'student_homework' %}">Домашняя работа</a></li>
+            <li class="{% if request.path == '/student/theory/' %}active{% endif %}"><a href="{% url 'student_theory' %}">Теория</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        {% block student_content %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

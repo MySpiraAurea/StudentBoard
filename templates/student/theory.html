@@ -1,6 +1,9 @@
 <!-- templates/student/theory.html -->
-{% extends 'base.html' %}
-{% block content %}
-<h2>Student Theory</h2>
-<!-- Добавь содержимое для теории студента -->
+{% extends "student_base.html" %}
+
+{% block title %}Теория{% endblock %}
+
+{% block student_content %}
+<h1>Теория</h1>
+<p>Вы находитесь на странице теории.</p>
 {% endblock %}

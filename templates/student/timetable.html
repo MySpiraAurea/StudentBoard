@@ -1,6 +1,9 @@
 <!-- templates/student/timetable.html -->
-{% extends 'base.html' %}
-{% block content %}
-<h2>Student Timetable</h2>
-<!-- Добавь содержимое для расписания студента -->
+{% extends "student_base.html" %}
+
+{% block title %}Расписание{% endblock %}
+
+{% block student_content %}
+<h1>Расписание</h1>
+<p>Вы находитесь на странице расписания.</p>
 {% endblock %}

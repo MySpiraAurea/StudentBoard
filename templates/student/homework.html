@@ -1,6 +1,11 @@
 <!-- templates/student/homework.html -->
-{% extends 'base.html' %}
-{% block content %}
-<h2>Student Homework</h2>
-<!-- Добавь содержимое для домашней работы студента -->
+{% extends "student_base.html" %}
+
+{% block title %}Домашняя работа{% endblock %}
+
+{% block student_content %}
+<h1>Домашняя работа</h1>
+<p>Вы находитесь на странице домашней работы.</p>
 {% endblock %}
+
+

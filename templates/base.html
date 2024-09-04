@@ -1,15 +1,37 @@
+<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}My Site{% endblock %}</title>
+    <title>{% block title %}StudentBoard{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <li><a href="#">Курсы</a></li>
+                <li><a href="#">Репетиторы</a></li>
+                <li><a href="#">Мини-группы</a></li>
+                <li><a href="#">Домашняя школа</a></li>
+                <li><a href="#">Школа программирования</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Выход</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Вход</a></li>
+                    <li><a href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>
+
+
 

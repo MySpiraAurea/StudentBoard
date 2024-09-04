@@ -1,6 +1,9 @@
 <!-- templates/teacher/students.html -->
-{% extends 'base.html' %}
-{% block content %}
-<h2>Teacher Students</h2>
-<!-- Добавь содержимое для студентов учителя -->
+{% extends "teacher_base.html" %}
+
+{% block title %}Ученики{% endblock %}
+
+{% block teacher_content %}
+<h1>Ученики</h1>
+<p>Вы находитесь на странице учеников.</p>
 {% endblock %}

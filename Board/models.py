@@ -1,11 +1,24 @@
-from django.contrib.auth.models import AbstractUser, Group, Permission
+# models.py
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.conf import settings
 
 class Board(models.Model):
     name = models.CharField(max_length=255)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey('BoardUser', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class BoardUser(AbstractUser):
+    ROLE_CHOICES = [
+        ('student', 'Student'),
+        ('teacher', 'Teacher'),
+    ]
+    email = models.EmailField(unique=True)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
+
+    REQUIRED_FIELDS = ['email']
+
+    def __str__(self):
+        return self.username
 
 class Note(models.Model):
     board = models.ForeignKey(Board, related_name='notes', on_delete=models.CASCADE)
@@ -34,22 +47,13 @@ class Shape(models.Model):
 
 class Comment(models.Model):
     note = models.ForeignKey(Note, related_name='comments', on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey('BoardUser', on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-class User(AbstractUser):
-    ROLE_CHOICES = (
-        ('student', 'Student'),
-        ('teacher', 'Teacher'),
-    )
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
-    groups = models.ManyToManyField(Group, related_name='custom_user_set')
-    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_set')
-
 class Lesson(models.Model):
-    teacher = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='lessons_as_teacher', on_delete=models.CASCADE)
-    student = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='lessons_as_student', on_delete=models.CASCADE)
+    teacher = models.ForeignKey('BoardUser', related_name='lessons_as_teacher', on_delete=models.CASCADE)
+    student = models.ForeignKey('BoardUser', related_name='lessons_as_student', on_delete=models.CASCADE)
     date = models.DateTimeField()
     duration = models.DurationField()
 
@@ -63,10 +67,5 @@ class Theory(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-class Student(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=150, default='default_user')
-    password = models.CharField(max_length=128, default='default_password')  # Задай значение по умолчанию
 
 

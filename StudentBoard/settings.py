@@ -119,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-AUTH_USER_MODEL = 'Board.User'
+AUTH_USER_MODEL = 'Board.BoardUser'
 
 
 REST_FRAMEWORK = {
