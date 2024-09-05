@@ -2,6 +2,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from StudentBoard import settings
+
+
 class Board(models.Model):
     name = models.CharField(max_length=255)
     owner = models.ForeignKey('BoardUser', on_delete=models.CASCADE)
@@ -67,5 +70,22 @@ class Theory(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+class Schedule(models.Model):
+    teacher = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='teacher_schedules', on_delete=models.CASCADE)
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='student_schedules', on_delete=models.CASCADE)
+    subject = models.CharField(max_length=255)
+    day_of_week = models.CharField(max_length=10, choices=[
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+        ('Sunday', 'Sunday'),
+    ])
+    start_time = models.TimeField()
+    end_time = models.TimeField()
 
+    def __str__(self):
+        return f"{self.subject} with {self.student.username} on {self.day_of_week} from {self.start_time} to {self.end_time}"
 

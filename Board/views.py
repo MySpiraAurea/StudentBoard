@@ -4,7 +4,7 @@ from .serializers import *
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .models import BoardUser
+from .models import BoardUser, Schedule
 from .forms import CustomUserCreationForm, logger
 from django.contrib import messages
 
@@ -117,7 +117,9 @@ def teacher_sessions(request):
 
 @login_required
 def teacher_timetable(request):
-    return render(request, 'teacher/timetable.html')
+    schedules = Schedule.objects.filter(teacher=request.user)
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    return render(request, 'teacher/timetable.html', {'schedules': schedules, 'days_of_week': days_of_week})
 
 @login_required
 def teacher_students(request):
@@ -133,7 +135,9 @@ def student_sessions(request):
 
 @login_required
 def student_timetable(request):
-    return render(request, 'student/timetable.html')
+    schedules = Schedule.objects.filter(student=request.user)
+    days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    return render(request, 'student/timetable.html', {'schedules': schedules, 'days_of_week': days_of_week})
 
 @login_required
 def student_homework(request):

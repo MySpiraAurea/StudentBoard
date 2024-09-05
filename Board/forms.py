@@ -1,7 +1,7 @@
 # forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import BoardUser
+from .models import BoardUser, Schedule
 import logging
 
 logger = logging.getLogger('StudentBoard')
@@ -22,6 +22,11 @@ class CustomUserCreationForm(UserCreationForm):
         else:
             logger.debug('User not saved because commit=False.')
         return user
+
+    class ScheduleForm(forms.ModelForm):
+        class Meta:
+            model = Schedule
+            fields = ['teacher', 'student', 'subject', 'day_of_week', 'start_time', 'end_time']
 
 
 

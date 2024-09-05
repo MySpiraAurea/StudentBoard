@@ -3,7 +3,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.html import format_html
-from .models import BoardUser
+from .models import BoardUser, Schedule
+
 
 class BoardUserAdmin(UserAdmin):
     fieldsets = (
@@ -28,4 +29,10 @@ class BoardUserAdmin(UserAdmin):
             'all': (staticfiles_storage.url('css/admin.css'),)
         }
 
+class ScheduleAdmin(admin.ModelAdmin):
+    list_display = ('teacher', 'student', 'subject', 'day_of_week', 'start_time', 'end_time')
+    list_filter = ('day_of_week', 'teacher', 'student')
+    search_fields = ('teacher__username', 'student__username', 'subject')
+
 admin.site.register(BoardUser, BoardUserAdmin)
+admin.site.register(Schedule, ScheduleAdmin)
